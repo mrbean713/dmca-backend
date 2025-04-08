@@ -3,7 +3,11 @@ import cors from 'cors'
 const { scanLeaks } = require('../dist/scraper')
 
 const app = express()
-app.use(cors())
+app.use(cors({
+    origin: 'https://dmca-dashboard.vercel.app', // ✅ your frontend Vercel domain
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type'],
+  }))
 app.use(express.json())
 
 
@@ -17,8 +21,8 @@ app.post('/scan-leaks', async (req: Request, res: Response) => {
       const results = await scanLeaks(modelName)
       res.json({ success: true, foundLinks: results })
     } catch (err) {
-      console.error("❌ Scan failed:", err) // <- log the error
-      res.status(500).json({ success: false, error: 'Scan failed' })
+        console.error("❌ Scan failed:", err)
+        res.status(500).json({ success: false, error: err instanceof Error ? err.message : 'Unknown error' })
     }
   })
 

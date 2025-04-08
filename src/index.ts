@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express'
 import cors from 'cors'
+/** @type {{ scanLeaks: (modelName: string) => Promise<any[]> }} */
 const { scanLeaks } = require('../dist/scraper')
 
 const app = express()

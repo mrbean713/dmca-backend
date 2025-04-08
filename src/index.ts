@@ -36,4 +36,6 @@ app.post('/scan-leaks', async (req: Request, res: Response) => {
   }
 })
 
+
+console.log(app._router.stack.map((r: any) => r.route?.path).filter(Boolean))
 app.listen(4000, () => console.log('✅ Scraper running on http://localhost:4000'))

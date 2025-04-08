@@ -40,4 +40,5 @@ app.post('/scan-leaks', (req: Request, res: Response): void => {
   })
   
 
-app.listen(4000, () => console.log('✅ Scraper running on http://localhost:4000'))
+const PORT = process.env.PORT || 4000
+app.listen(PORT, () => console.log(`✅ Scraper running on http://localhost:${PORT}`))

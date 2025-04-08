@@ -19,6 +19,7 @@ const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.post('/scan-leaks', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("🔥 Received scan request", req.body); // <- log it
     const { modelName } = req.body;
     if (!modelName)
         return res.status(400).json({ error: 'Missing model name' });
@@ -27,7 +28,7 @@ app.post('/scan-leaks', (req, res) => __awaiter(void 0, void 0, void 0, function
         res.json({ success: true, foundLinks: results });
     }
     catch (err) {
-        console.error(err);
+        console.error("❌ Scan failed:", err); // <- log the error
         res.status(500).json({ success: false, error: 'Scan failed' });
     }
 }));

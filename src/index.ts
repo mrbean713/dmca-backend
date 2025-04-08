@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express'
 import cors from 'cors'
 import path from 'path'
-const { scanLeaks } = require('../dist/scraper')
+import { scanLeaks } from './scraper'
 
 
 

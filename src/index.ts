@@ -1,20 +1,15 @@
 import express, { Request, Response } from 'express'
 import cors from 'cors'
-/** @type {{ scanLeaks: (modelName: string) => Promise<any[]> }} */
 const { scanLeaks } = require('../dist/scraper')
 
 const app = express()
 
-// Allow cross-origin requests from frontend
 app.use(cors({
   origin: 'https://dmca-dashboard.vercel.app',
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type'],
   credentials: true,
 }))
-
-// Handle preflight
-app.options('*', cors())
 
 app.use(express.json())
 
@@ -36,6 +31,4 @@ app.post('/scan-leaks', async (req: Request, res: Response) => {
   }
 })
 
-
-console.log(app._router.stack.map((r: any) => r.route?.path).filter(Boolean))
 app.listen(4000, () => console.log('✅ Scraper running on http://localhost:4000'))

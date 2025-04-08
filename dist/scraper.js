@@ -18,7 +18,11 @@ const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 function scanLeaks(modelName) {
     return __awaiter(this, void 0, void 0, function* () {
-        const browser = yield playwright_1.chromium.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
+        const browser = yield playwright_1.chromium.launch({
+            headless: true,
+            channel: 'chrome', // Use the full Chromium instead of default bundled one
+            args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        });
         const page = yield browser.newPage();
         const query = modelName.toLowerCase().replace(/\s+/g, '-');
         const searchUrl = 'https://fapello.com/';

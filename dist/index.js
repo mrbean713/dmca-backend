@@ -14,8 +14,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const { scanLeaks } = require('../dist/scraper');
+const path_1 = __importDefault(require("path"));
+const scraper_1 = require("./scraper");
 const app = (0, express_1.default)();
+// add this before any route:
+app.use('/screenshots', express_1.default.static(path_1.default.join(__dirname, '../public/screenshots')));
 app.use((0, cors_1.default)({
     origin: 'https://dmca-dashboard.vercel.app',
     methods: ['GET', 'POST', 'OPTIONS'],
@@ -23,21 +26,24 @@ app.use((0, cors_1.default)({
     credentials: true,
 }));
 app.use(express_1.default.json());
-app.post('/scan-leaks', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("🔥 Received scan request", req.body);
-    const { modelName } = req.body;
-    if (!modelName)
-        return res.status(400).json({ error: 'Missing model name' });
-    try {
-        const results = yield scanLeaks(modelName);
-        res.json({ success: true, foundLinks: results });
-    }
-    catch (err) {
-        console.error("❌ Scan failed:", err);
-        res.status(500).json({
-            success: false,
-            error: err instanceof Error ? err.message : 'Unknown error'
-        });
-    }
-}));
-app.listen(4000, () => console.log('✅ Scraper running on http://localhost:4000'));
+app.post('/scan-leaks', (req, res) => {
+    (() => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("🔥 Received scan request", req.body);
+        const { modelName } = req.body;
+        if (!modelName)
+            return res.status(400).json({ error: 'Missing model name' });
+        try {
+            const results = yield (0, scraper_1.scanLeaks)(modelName);
+            res.json({ success: true, foundLinks: results });
+        }
+        catch (err) {
+            console.error("❌ Scan failed:", err);
+            res.status(500).json({
+                success: false,
+                error: err instanceof Error ? err.message : 'Unknown error'
+            });
+        }
+    }))();
+});
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => console.log(`✅ Scraper running on http://localhost:${PORT}`));

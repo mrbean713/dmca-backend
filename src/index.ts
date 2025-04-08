@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express'
 import cors from 'cors'
-import { scanLeaks } from './scraper'
+const { scanLeaks } = require('../dist/scraper')
 
 const app = express()
 app.use(cors())

@@ -1,2 +1,5 @@
+# Ignore TypeScript source (keeps it private)
 src/scraper.ts
-dist/scraper.js
+
+# Don't ignore compiled JS — we want to push this!
+# (So DO NOT put dist/scraper.js in here)

@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const scraper_1 = require("./scraper");
+const { scanLeaks } = require('../dist/scraper');
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
@@ -23,7 +23,7 @@ app.post('/scan-leaks', (req, res) => __awaiter(void 0, void 0, void 0, function
     if (!modelName)
         return res.status(400).json({ error: 'Missing model name' });
     try {
-        const results = yield (0, scraper_1.scanLeaks)(modelName);
+        const results = yield scanLeaks(modelName);
         res.json({ success: true, foundLinks: results });
     }
     catch (err) {

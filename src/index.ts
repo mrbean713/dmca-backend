@@ -1,8 +1,14 @@
 import express, { Request, Response } from 'express'
 import cors from 'cors'
+import path from 'path'
 const { scanLeaks } = require('../dist/scraper')
 
+
+
 const app = express()
+
+// add this before any route:
+app.use('/screenshots', express.static(path.join(__dirname, '../public/screenshots')))
 
 app.use(cors({
   origin: 'https://dmca-dashboard.vercel.app',

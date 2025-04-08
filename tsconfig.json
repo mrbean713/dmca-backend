@@ -6,8 +6,10 @@
     "outDir": "./dist",
     "esModuleInterop": true,
     "moduleResolution": "node",
+    "types": ["node", "express"],
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true
-  }
+  },
+  "include": ["src/**/*"]
 }
